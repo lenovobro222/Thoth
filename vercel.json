@@ -1,11 +1,7 @@
 {
-  "name": "thoth-divine-council",
-  "version": "1.0.0",
-  "description": "Thoth — Egyptian-themed multi-agent AI system",
-  "scripts": {
-    "dev": "vercel dev"
-  },
-  "devDependencies": {
-    "vercel": "^37.0.0"
+  "functions": {
+    "api/chat.js": {
+      "maxDuration": 60
+    }
   }
 }
