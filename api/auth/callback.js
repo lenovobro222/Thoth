@@ -1,4 +1,4 @@
-import { OAuth2Client } from 'google-auth-library';
+const { OAuth2Client } = require('google-auth-library');
 
 const oauth2Client = new OAuth2Client(
   process.env.GOOGLE_CLIENT_ID,
@@ -6,7 +6,7 @@ const oauth2Client = new OAuth2Client(
   `${process.env.NEXTAUTH_URL}/api/auth/callback`
 );
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   const { code } = req.query;
 
   if (!code) {
@@ -24,16 +24,13 @@ export default async function handler(req, res) {
 
   try {
     const { tokens } = await oauth2Client.getToken(code);
-    const tokenStr = JSON.stringify(tokens);
-    const encoded = Buffer.from(tokenStr).toString('base64');
-    
+    const encoded = Buffer.from(JSON.stringify(tokens)).toString('base64');
     res.setHeader('Set-Cookie', [
       `gmail_tokens=${encoded}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=2592000`,
     ]);
-
     return res.redirect('/?auth=success');
   } catch (err) {
     console.error('OAuth error:', err);
     return res.redirect('/?auth=error');
   }
-}
+};
