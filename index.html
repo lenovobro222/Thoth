@@ -1085,3 +1085,90 @@ document.getElementById('taskInput').addEventListener('keydown', e => {
 </script>
 </body>
 </html>
+<!-- Gmail auth bar injected via JS -->
+<script>
+// ── Gmail Auth ──
+function connectGmail() {
+  window.location.href = '/api/auth/callback';
+}
+
+// Check auth status on load
+async function checkGmailAuth() {
+  try {
+    const res = await fetch('/api/gmail/read?maxResults=1');
+    if (res.ok) {
+      document.getElementById('authStatus').textContent = 'Connected ✓';
+      document.getElementById('authStatus').style.color = 'var(--anubis)';
+      document.getElementById('gmailBtn').textContent = 'Connected ✓';
+      document.getElementById('gmailBtn').style.borderColor = 'var(--anubis)';
+      document.getElementById('gmailBtn').style.color = 'var(--anubis)';
+      document.getElementById('gmailBtn').onclick = null;
+      document.getElementById('gmailBtn').style.cursor = 'default';
+    }
+  } catch {}
+}
+
+// Gmail tools for agents
+async function gmailRead(query = 'is:inbox', maxResults = 5) {
+  const res = await fetch(`/api/gmail/read?query=${encodeURIComponent(query)}&maxResults=${maxResults}`);
+  if (!res.ok) throw new Error('Gmail not connected');
+  const data = await res.json();
+  return data.emails;
+}
+
+async function gmailSend({ to, subject, body, draftOnly = true }) {
+  const res = await fetch('/api/gmail/send', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ to, subject, body, draftOnly }),
+  });
+  if (!res.ok) throw new Error('Failed to send email');
+  return await res.json();
+}
+
+// Inject auth bar into page
+(function injectAuthBar() {
+  const bar = document.createElement('div');
+  bar.id = 'authBar';
+  bar.style.cssText = `
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  `;
+  bar.innerHTML = `
+    <div style="font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.15em;color:var(--text-dim)">
+      📧 GMAIL — <span id="authStatus" style="color:var(--text-dim)">Not connected</span>
+    </div>
+    <button id="gmailBtn" onclick="connectGmail()" style="
+      background:transparent;
+      border:1px solid var(--gold-dim);
+      color:var(--gold);
+      font-family:'Cinzel',serif;
+      font-size:0.68rem;
+      letter-spacing:0.2em;
+      text-transform:uppercase;
+      padding:7px 16px;
+      border-radius:2px;
+      cursor:pointer;
+    ">Connect Gmail</button>
+  `;
+
+  const progressBar = document.getElementById('progressBar');
+  progressBar.parentNode.insertBefore(bar, progressBar);
+
+  // Check if already authed
+  checkGmailAuth();
+
+  // Handle auth success redirect
+  if (window.location.search.includes('auth=success')) {
+    checkGmailAuth();
+    history.replaceState({}, '', '/');
+  }
+})();
+</script>
