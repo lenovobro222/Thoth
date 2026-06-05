@@ -827,7 +827,11 @@ function clearAll() {
 }
 
 document.getElementById('taskInput').addEventListener('keydown', e => {
-  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') invoke();
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    invoke();
+  }
+});
 });
 </script>
 </body>
