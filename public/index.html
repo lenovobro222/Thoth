@@ -826,8 +826,14 @@ function clearAll() {
   document.querySelectorAll('.god-badge').forEach(b => b.classList.remove('active', 'done'));
 }
 
-document.getElementById('taskInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); invoke(); }
+document.getElementById('taskInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    e.stopPropagation();
+    invoke();
+    return false;
+  }
+});
 });
   }
 });
