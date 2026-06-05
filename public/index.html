@@ -827,9 +827,7 @@ function clearAll() {
 }
 
 document.getElementById('taskInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    invoke();
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); invoke(); }
   }
 });
 });
