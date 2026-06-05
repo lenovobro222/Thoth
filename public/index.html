@@ -46,7 +46,6 @@
     overflow-x: hidden;
   }
 
-  /* ── Stars background ── */
   body::before {
     content: '';
     position: fixed;
@@ -66,7 +65,6 @@
     z-index: 0;
   }
 
-  /* ── Subtle scanlines ── */
   body::after {
     content: '';
     position: fixed;
@@ -90,7 +88,6 @@
     z-index: 1;
   }
 
-  /* ── Header ── */
   header {
     text-align: center;
     padding: 56px 0 36px;
@@ -154,7 +151,6 @@
     background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
   }
 
-  /* ── Council display ── */
   .council {
     display: flex;
     justify-content: center;
@@ -172,14 +168,8 @@
     transition: opacity 0.4s, transform 0.4s;
   }
 
-  .god-badge.active {
-    opacity: 1;
-    transform: translateY(-4px);
-  }
-
-  .god-badge.done {
-    opacity: 0.7;
-  }
+  .god-badge.active { opacity: 1; transform: translateY(-4px); }
+  .god-badge.done { opacity: 0.7; }
 
   .god-icon {
     width: 44px;
@@ -193,9 +183,7 @@
     transition: box-shadow 0.4s;
   }
 
-  .god-badge.active .god-icon {
-    animation: godPulse 1.5s ease-in-out infinite;
-  }
+  .god-badge.active .god-icon { animation: godPulse 1.5s ease-in-out infinite; }
 
   @keyframes godPulse {
     0%, 100% { box-shadow: 0 0 0 0 currentColor; }
@@ -209,20 +197,14 @@
     text-transform: uppercase;
   }
 
-  .god-role {
-    font-size: 0.6rem;
-    color: var(--text-dim);
-    letter-spacing: 0.1em;
-  }
+  .god-role { font-size: 0.6rem; color: var(--text-dim); letter-spacing: 0.1em; }
 
-  /* God colors */
   .god-ra    { color: var(--ra);    border-color: var(--ra); }
   .god-seshat{ color: var(--seshat);border-color: var(--seshat); }
   .god-isis  { color: var(--isis);  border-color: var(--isis); }
   .god-thoth { color: var(--thoth); border-color: var(--thoth); }
   .god-anubis{ color: var(--anubis);border-color: var(--anubis); }
 
-  /* ── Input area ── */
   .input-section {
     background: var(--card);
     border: 1px solid var(--border);
@@ -267,14 +249,8 @@
     transition: border-color 0.3s;
   }
 
-  textarea:focus {
-    border-color: var(--gold-dim);
-  }
-
-  textarea::placeholder {
-    color: var(--text-dim);
-    font-style: italic;
-  }
+  textarea:focus { border-color: var(--gold-dim); }
+  textarea::placeholder { color: var(--text-dim); font-style: italic; }
 
   .input-footer {
     display: flex;
@@ -285,12 +261,7 @@
     flex-wrap: wrap;
   }
 
-  .options {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
+  .options { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
 
   .toggle-label {
     display: flex;
@@ -303,12 +274,7 @@
     letter-spacing: 0.08em;
   }
 
-  .toggle-label input[type="checkbox"] {
-    accent-color: var(--gold);
-    width: 14px;
-    height: 14px;
-    cursor: pointer;
-  }
+  .toggle-label input[type="checkbox"] { accent-color: var(--gold); width: 14px; height: 14px; cursor: pointer; }
 
   .invoke-btn {
     background: linear-gradient(135deg, #3A2208, #1E1005);
@@ -355,12 +321,7 @@
 
   .clear-btn:hover { border-color: var(--text-dim); color: var(--text); }
 
-  /* ── Agent panels ── */
-  .panels {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
+  .panels { display: flex; flex-direction: column; gap: 20px; }
 
   .panel {
     background: var(--card);
@@ -372,10 +333,7 @@
     transition: opacity 0.5s, transform 0.5s;
   }
 
-  .panel.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  .panel.visible { opacity: 1; transform: translateY(0); }
 
   .panel-header {
     display: flex;
@@ -388,12 +346,7 @@
     position: relative;
   }
 
-  .panel-header::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-  }
+  .panel-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
 
   .panel-ra     .panel-header::before { background: linear-gradient(to right, transparent, var(--ra), transparent); }
   .panel-seshat .panel-header::before { background: linear-gradient(to right, transparent, var(--seshat), transparent); }
@@ -402,14 +355,8 @@
   .panel-anubis .panel-header::before { background: linear-gradient(to right, transparent, var(--anubis), transparent); }
   .panel-final  .panel-header::before { background: linear-gradient(to right, var(--gold-dim), var(--gold-bright), var(--gold-dim)); }
 
-  .panel-icon {
-    font-size: 1.4rem;
-    flex-shrink: 0;
-  }
-
-  .panel-meta {
-    flex: 1;
-  }
+  .panel-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .panel-meta { flex: 1; }
 
   .panel-title {
     font-family: 'Cinzel', serif;
@@ -426,27 +373,9 @@
   .panel-anubis .panel-title { color: var(--anubis); }
   .panel-final  .panel-title { color: var(--gold-bright); }
 
-  .panel-desc {
-    font-size: 0.75rem;
-    color: var(--text-dim);
-    letter-spacing: 0.05em;
-  }
-
-  .panel-status {
-    font-size: 0.72rem;
-    color: var(--text-dim);
-    font-family: 'Cinzel', serif;
-    letter-spacing: 0.1em;
-    flex-shrink: 0;
-  }
-
-  .panel-chevron {
-    color: var(--text-dim);
-    font-size: 0.8rem;
-    transition: transform 0.3s;
-    flex-shrink: 0;
-  }
-
+  .panel-desc { font-size: 0.75rem; color: var(--text-dim); letter-spacing: 0.05em; }
+  .panel-status { font-size: 0.72rem; color: var(--text-dim); font-family: 'Cinzel', serif; letter-spacing: 0.1em; flex-shrink: 0; }
+  .panel-chevron { color: var(--text-dim); font-size: 0.8rem; transition: transform 0.3s; flex-shrink: 0; }
   .panel.collapsed .panel-chevron { transform: rotate(-90deg); }
 
   .panel-body {
@@ -455,13 +384,8 @@
     transition: max-height 0.4s ease, padding 0.4s;
   }
 
-  .panel.collapsed .panel-body {
-    max-height: 0 !important;
-    padding-top: 0;
-    padding-bottom: 0;
-  }
+  .panel.collapsed .panel-body { max-height: 0 !important; padding-top: 0; padding-bottom: 0; }
 
-  /* ── Typing cursor ── */
   .typing::after {
     content: '▊';
     animation: blink 0.9s step-end infinite;
@@ -469,19 +393,10 @@
     font-size: 0.85em;
   }
 
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0; }
-  }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-  /* ── Markdown output ── */
   .md-output { font-family: 'EB Garamond', serif; font-size: 1rem; }
-  .md-output h1, .md-output h2, .md-output h3 {
-    font-family: 'Cinzel', serif;
-    color: var(--gold);
-    margin: 1.2em 0 0.5em;
-    letter-spacing: 0.08em;
-  }
+  .md-output h1, .md-output h2, .md-output h3 { font-family: 'Cinzel', serif; color: var(--gold); margin: 1.2em 0 0.5em; letter-spacing: 0.08em; }
   .md-output h1 { font-size: 1.3rem; }
   .md-output h2 { font-size: 1.1rem; }
   .md-output h3 { font-size: 0.95rem; }
@@ -490,28 +405,10 @@
   .md-output li { margin-bottom: 0.3em; }
   .md-output strong { color: var(--gold); font-weight: 600; }
   .md-output em { color: var(--papyrus); font-style: italic; }
-  .md-output code {
-    background: rgba(201,145,58,0.1);
-    border: 1px solid var(--border);
-    padding: 2px 6px;
-    border-radius: 2px;
-    font-size: 0.85em;
-    font-family: monospace;
-  }
-  .md-output hr {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 1.2em 0;
-  }
-  .md-output blockquote {
-    border-left: 2px solid var(--gold-dim);
-    padding-left: 16px;
-    color: var(--text-dim);
-    font-style: italic;
-    margin: 0.9em 0;
-  }
+  .md-output code { background: rgba(201,145,58,0.1); border: 1px solid var(--border); padding: 2px 6px; border-radius: 2px; font-size: 0.85em; font-family: monospace; }
+  .md-output hr { border: none; border-top: 1px solid var(--border); margin: 1.2em 0; }
+  .md-output blockquote { border-left: 2px solid var(--gold-dim); padding-left: 16px; color: var(--text-dim); font-style: italic; margin: 0.9em 0; }
 
-  /* ── Spinner ── */
   .spinner {
     display: inline-block;
     width: 14px;
@@ -526,7 +423,6 @@
 
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ── Copy button ── */
   .copy-btn {
     background: transparent;
     border: 1px solid var(--border);
@@ -544,84 +440,42 @@
 
   .copy-btn:hover { border-color: var(--gold-dim); color: var(--gold); }
 
-  /* ── Final panel special ── */
-  .panel-final {
-    border-color: var(--gold-dim);
-    box-shadow: 0 0 40px rgba(201,145,58,0.08);
-  }
+  .panel-final { border-color: var(--gold-dim); box-shadow: 0 0 40px rgba(201,145,58,0.08); }
 
-  /* ── Hieroglyph decoration ── */
-  .hiero {
-    font-size: 1.4rem;
-    opacity: 0.15;
-    letter-spacing: 0.15em;
-  }
+  .hiero { font-size: 1.4rem; opacity: 0.15; letter-spacing: 0.15em; }
 
-  /* ── Progress bar ── */
-  .progress-bar {
-    height: 2px;
-    background: var(--border);
-    border-radius: 1px;
-    margin-bottom: 24px;
-    overflow: hidden;
-    display: none;
-  }
-
+  .progress-bar { height: 2px; background: var(--border); border-radius: 1px; margin-bottom: 24px; overflow: hidden; display: none; }
   .progress-bar.show { display: block; }
+  .progress-fill { height: 100%; background: linear-gradient(to right, var(--gold-dim), var(--gold-bright)); transition: width 0.6s ease; width: 0%; }
 
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(to right, var(--gold-dim), var(--gold-bright));
-    transition: width 0.6s ease;
-    width: 0%;
-  }
-
-  /* ── Responsive ── */
   @media (max-width: 560px) {
     .council { gap: 12px; }
     .god-badge { display: none; }
     .god-badge:nth-child(-n+3) { display: flex; }
     textarea { min-height: 80px; }
   }
-
-  /* ── Scroll reveal ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
 </style>
 </head>
 <body>
 
 <div class="container">
-
-  <!-- Header -->
   <header>
     <div class="eye-of-ra">
       <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Eye outline -->
         <ellipse cx="32" cy="32" rx="28" ry="14" stroke="#C9913A" stroke-width="1.5" fill="none"/>
-        <!-- Pupil -->
         <circle cx="32" cy="32" r="8" fill="#C9913A" opacity="0.9"/>
         <circle cx="32" cy="32" r="4" fill="#0A0804"/>
-        <!-- Kohl lines -->
         <path d="M4 32 Q16 38 32 32 Q16 26 4 32" fill="#C9913A" opacity="0.3"/>
         <path d="M60 32 Q48 26 32 32 Q48 38 60 32" fill="#C9913A" opacity="0.3"/>
-        <!-- Decorative lines below eye -->
         <line x1="32" y1="46" x2="32" y2="58" stroke="#C9913A" stroke-width="1.5" opacity="0.6"/>
         <line x1="28" y1="50" x2="24" y2="56" stroke="#C9913A" stroke-width="1" opacity="0.5"/>
       </svg>
     </div>
-
     <h1>THOTH</h1>
     <div class="subtitle">The Divine Council · Multi-Agent Intelligence</div>
-
-    <div class="divider">
-      <span class="hiero">𓂀 𓆓 𓇯 𓅃 𓀭</span>
-    </div>
+    <div class="divider"><span class="hiero">𓂀 𓆓 𓇯 𓅃 𓀭</span></div>
   </header>
 
-  <!-- Council badges -->
   <div class="council" id="council">
     <div class="god-badge" id="badge-ra">
       <div class="god-icon god-ra">☀️</div>
@@ -650,29 +504,17 @@
     </div>
   </div>
 
-  <!-- Progress bar -->
   <div class="progress-bar" id="progressBar">
     <div class="progress-fill" id="progressFill"></div>
   </div>
 
-  <!-- Input -->
   <div class="input-section">
     <label class="input-label" for="taskInput">Invoke the Council — State your task</label>
-    <textarea
-      id="taskInput"
-      placeholder="e.g. Write a strategic analysis of AI's impact on the music industry…"
-      rows="4"
-    ></textarea>
+    <textarea id="taskInput" placeholder="e.g. Write a strategic analysis of AI's impact on the music industry…" rows="4"></textarea>
     <div class="input-footer">
       <div class="options">
-        <label class="toggle-label">
-          <input type="checkbox" id="webSearch" />
-          Web Search
-        </label>
-        <label class="toggle-label">
-          <input type="checkbox" id="deepRevise" checked />
-          Deep Revision
-        </label>
+        <label class="toggle-label"><input type="checkbox" id="webSearch" /> Web Search</label>
+        <label class="toggle-label"><input type="checkbox" id="deepRevise" checked /> Deep Revision</label>
       </div>
       <div style="display:flex;gap:10px;">
         <button class="clear-btn" onclick="clearAll()">Clear</button>
@@ -681,16 +523,11 @@
     </div>
   </div>
 
-  <!-- Panels -->
   <div class="panels" id="panels"></div>
-
 </div>
 
 <script>
-// ──────────────────────────────────────────────
-// CONFIG
-// ──────────────────────────────────────────────
-const MODEL = 'claude-sonnet-4-20250514';
+const MODEL = 'claude-sonnet-4-6';
 const MAX_TOKENS = 1500;
 
 const AGENTS = [
@@ -796,45 +633,26 @@ This is the final scroll — the sacred text that will endure. Make it worthy of
   },
 ];
 
-// ──────────────────────────────────────────────
-// STATE
-// ──────────────────────────────────────────────
 let isRunning = false;
-let contextHistory = {}; // store outputs by agent id
+let contextHistory = {};
 
-// ──────────────────────────────────────────────
-// UTILS
-// ──────────────────────────────────────────────
-function setProgress(pct) {
-  document.getElementById('progressFill').style.width = pct + '%';
-}
+function setProgress(pct) { document.getElementById('progressFill').style.width = pct + '%'; }
 
 function activateBadge(id, done = false) {
   document.querySelectorAll('.god-badge').forEach(b => b.classList.remove('active'));
   const badge = document.getElementById(id);
-  if (badge) {
-    badge.classList.remove('done');
-    if (done) {
-      badge.classList.add('done');
-    } else {
-      badge.classList.add('active');
-    }
-  }
+  if (badge) { badge.classList.remove('done'); badge.classList.add(done ? 'done' : 'active'); }
 }
 
 function doneBadge(id) {
   const badge = document.getElementById(id);
-  if (badge) {
-    badge.classList.remove('active');
-    badge.classList.add('done');
-  }
+  if (badge) { badge.classList.remove('active'); badge.classList.add('done'); }
 }
 
 function createPanel(agent, index) {
   const panel = document.createElement('div');
   panel.className = `panel ${agent.panelClass}`;
   panel.id = `panel-${agent.id}`;
-
   panel.innerHTML = `
     <div class="panel-header" onclick="togglePanel('${agent.id}')">
       <span class="panel-icon">${agent.icon}</span>
@@ -849,16 +667,8 @@ function createPanel(agent, index) {
       <div class="md-output typing" id="output-${agent.id}"></div>
     </div>
   `;
-
   document.getElementById('panels').appendChild(panel);
-
-  // Animate in
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      panel.classList.add('visible');
-    });
-  });
-
+  requestAnimationFrame(() => requestAnimationFrame(() => panel.classList.add('visible')));
   return panel;
 }
 
@@ -873,17 +683,10 @@ function togglePanel(id) {
   if (panel) panel.classList.toggle('collapsed');
 }
 
-function renderMarkdown(el, text) {
-  el.innerHTML = marked.parse(text);
-}
+function renderMarkdown(el, text) { el.innerHTML = marked.parse(text); }
 
-// ──────────────────────────────────────────────
-// API CALL
-// ──────────────────────────────────────────────
 async function callAgent(agent, messages) {
   const useWebSearch = document.getElementById('webSearch').checked;
-
-  // Only give web search to Seshat (researcher) and Ra (commander)
   const webSearchAgents = ['ra', 'seshat'];
   const tools = (useWebSearch && webSearchAgents.includes(agent.id))
     ? [{ type: 'web_search_20250305', name: 'web_search' }]
@@ -909,23 +712,12 @@ async function callAgent(agent, messages) {
   }
 
   const data = await response.json();
-
-  // Extract text from all content blocks (handles tool_use + text blocks)
-  const text = (data.content || [])
-    .filter(b => b.type === 'text')
-    .map(b => b.text)
-    .join('\n\n');
-
-  return text || '';
+  return (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n\n') || '';
 }
 
-// ──────────────────────────────────────────────
-// STREAM SIMULATION (typewriter)
-// ──────────────────────────────────────────────
 async function typewrite(el, text, speed = 6) {
   el.textContent = '';
   el.classList.add('typing');
-
   const chunkSize = 4;
   let i = 0;
   while (i < text.length) {
@@ -934,37 +726,23 @@ async function typewrite(el, text, speed = 6) {
     i += chunkSize;
     await new Promise(r => setTimeout(r, speed));
   }
-
   el.classList.remove('typing');
   renderMarkdown(el, text);
 }
 
-// ──────────────────────────────────────────────
-// MAIN INVOKE
-// ──────────────────────────────────────────────
 async function invoke() {
   if (isRunning) return;
-
   const task = document.getElementById('taskInput').value.trim();
-  if (!task) {
-    document.getElementById('taskInput').focus();
-    return;
-  }
+  if (!task) { document.getElementById('taskInput').focus(); return; }
 
   const deepRevise = document.getElementById('deepRevise').checked;
-
   isRunning = true;
   contextHistory = {};
-
   document.getElementById('invokeBtn').disabled = true;
   document.getElementById('panels').innerHTML = '';
   document.getElementById('progressBar').classList.add('show');
   setProgress(5);
-
-  // Deactivate all badges
-  document.querySelectorAll('.god-badge').forEach(b => {
-    b.classList.remove('active', 'done');
-  });
+  document.querySelectorAll('.god-badge').forEach(b => b.classList.remove('active', 'done'));
 
   const steps = deepRevise
     ? ['ra', 'seshat', 'isis', 'thoth', 'anubis', 'thoth-final']
@@ -976,59 +754,32 @@ async function invoke() {
     for (let si = 0; si < steps.length; si++) {
       const agentId = steps[si];
       const agent = AGENTS.find(a => a.id === agentId);
-      const panel = createPanel(agent, si);
+      createPanel(agent, si);
       const outputEl = document.getElementById(`output-${agentId}`);
-
       activateBadge(agent.badge);
       setStatus(agentId, 'Invoking…', true);
 
-      // Build messages for this agent
       let messages = [];
-
       if (agentId === 'ra') {
         messages = [{ role: 'user', content: `Task: ${task}` }];
       } else if (agentId === 'seshat') {
-        messages = [
-          { role: 'user', content: `Task: ${task}\n\nRa's decree:\n${contextHistory['ra']}` },
-        ];
+        messages = [{ role: 'user', content: `Task: ${task}\n\nRa's decree:\n${contextHistory['ra']}` }];
       } else if (agentId === 'isis') {
-        messages = [
-          {
-            role: 'user',
-            content: `Task: ${task}\n\nRa's decree:\n${contextHistory['ra']}\n\nSeshat's analysis:\n${contextHistory['seshat']}`,
-          },
-        ];
+        messages = [{ role: 'user', content: `Task: ${task}\n\nRa's decree:\n${contextHistory['ra']}\n\nSeshat's analysis:\n${contextHistory['seshat']}` }];
       } else if (agentId === 'thoth') {
-        messages = [
-          {
-            role: 'user',
-            content: `Original task: ${task}\n\nRa's mandate:\n${contextHistory['ra']}\n\nSeshat's analysis:\n${contextHistory['seshat']}\n\nIsis's strategy:\n${contextHistory['isis']}\n\nNow write the final output.`,
-          },
-        ];
+        messages = [{ role: 'user', content: `Original task: ${task}\n\nRa's mandate:\n${contextHistory['ra']}\n\nSeshat's analysis:\n${contextHistory['seshat']}\n\nIsis's strategy:\n${contextHistory['isis']}\n\nNow write the final output.` }];
       } else if (agentId === 'anubis') {
-        messages = [
-          {
-            role: 'user',
-            content: `Original task: ${task}\n\nThoth's output:\n${contextHistory['thoth']}\n\nJudge this work with the Feather of Ma'at.`,
-          },
-        ];
+        messages = [{ role: 'user', content: `Original task: ${task}\n\nThoth's output:\n${contextHistory['thoth']}\n\nJudge this work with the Feather of Ma'at.` }];
       } else if (agentId === 'thoth-final') {
-        messages = [
-          {
-            role: 'user',
-            content: `Original task: ${task}\n\nYour previous output:\n${contextHistory['thoth']}\n\nAnubis's judgment:\n${contextHistory['anubis']}\n\nRevise and deliver the final masterwork.`,
-          },
-        ];
+        messages = [{ role: 'user', content: `Original task: ${task}\n\nYour previous output:\n${contextHistory['thoth']}\n\nAnubis's judgment:\n${contextHistory['anubis']}\n\nRevise and deliver the final masterwork.` }];
       }
 
       try {
         const result = await callAgent(agent, messages);
         contextHistory[agentId] = result;
-
         setStatus(agentId, '✓ Complete');
         await typewrite(outputEl, result, 4);
 
-        // Add copy button
         const copyBtn = document.createElement('button');
         copyBtn.className = 'copy-btn';
         copyBtn.textContent = '⊕ Copy Text';
@@ -1039,7 +790,6 @@ async function invoke() {
         };
         document.getElementById(`body-${agentId}`).appendChild(copyBtn);
 
-        // Collapse non-final panels after done
         if (agentId !== 'thoth-final' && agentId !== 'thoth') {
           setTimeout(() => {
             const p = document.getElementById(`panel-${agentId}`);
@@ -1058,9 +808,7 @@ async function invoke() {
         console.error(`[${agentId}]`, err);
       }
     }
-
     setProgress(100);
-
   } finally {
     isRunning = false;
     document.getElementById('invokeBtn').disabled = false;
@@ -1078,7 +826,6 @@ function clearAll() {
   document.querySelectorAll('.god-badge').forEach(b => b.classList.remove('active', 'done'));
 }
 
-// Enter to submit (Ctrl+Enter or Cmd+Enter)
 document.getElementById('taskInput').addEventListener('keydown', e => {
   if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') invoke();
 });
@@ -1087,12 +834,8 @@ document.getElementById('taskInput').addEventListener('keydown', e => {
 </html>
 <!-- Gmail auth bar injected via JS -->
 <script>
-// ── Gmail Auth ──
-function connectGmail() {
-  window.location.href = '/api/auth/callback';
-}
+function connectGmail() { window.location.href = '/api/auth/callback'; }
 
-// Check auth status on load
 async function checkGmailAuth() {
   try {
     const res = await fetch('/api/gmail/read?maxResults=1');
@@ -1108,7 +851,6 @@ async function checkGmailAuth() {
   } catch {}
 }
 
-// Gmail tools for agents
 async function gmailRead(query = 'is:inbox', maxResults = 5) {
   const res = await fetch(`/api/gmail/read?query=${encodeURIComponent(query)}&maxResults=${maxResults}`);
   if (!res.ok) throw new Error('Gmail not connected');
@@ -1126,7 +868,6 @@ async function gmailSend({ to, subject, body, draftOnly = true }) {
   return await res.json();
 }
 
-// Inject auth bar into page
 (function injectAuthBar() {
   const bar = document.createElement('div');
   bar.id = 'authBar';
@@ -1158,14 +899,9 @@ async function gmailSend({ to, subject, body, draftOnly = true }) {
       cursor:pointer;
     ">Connect Gmail</button>
   `;
-
   const progressBar = document.getElementById('progressBar');
   progressBar.parentNode.insertBefore(bar, progressBar);
-
-  // Check if already authed
   checkGmailAuth();
-
-  // Handle auth success redirect
   if (window.location.search.includes('auth=success')) {
     checkGmailAuth();
     history.replaceState({}, '', '/');
