@@ -240,13 +240,13 @@
   .chat-area {
     flex: 1; padding: 28px 0;
     display: flex; flex-direction: column; gap: 20px;
-    min-height: 400px;
   }
 
   .welcome {
     display: flex; flex-direction: column; align-items: center;
     justify-content: center; flex: 1; padding: 56px 0;
     text-align: center; gap: 16px;
+    min-height: 400px;
   }
 
   .welcome-badge {
@@ -428,6 +428,7 @@
   }
 
   textarea::placeholder { color: var(--text-dim); font-style: italic; font-size: 0.9rem; }
+  textarea:disabled { opacity: 0.5; cursor: not-allowed; }
 
   .input-actions { position: absolute; right: 10px; bottom: 10px; display: flex; align-items: center; gap: 8px; }
 
@@ -567,7 +568,6 @@
         id="userInput"
         placeholder="Ask JASPER anything…"
         rows="1"
-        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}"
         oninput="autoResize(this)"
       ></textarea>
       <div class="input-actions">
@@ -575,7 +575,7 @@
           <input type="checkbox" id="webSearch" />
           <span>🌐 WEB</span>
         </label>
-        <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+        <button class="send-btn" id="sendBtn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="22" y1="2" x2="11" y2="13"/>
             <polygon points="22 2 15 22 11 13 2 9 22 2"/>
@@ -616,6 +616,25 @@ Web search: You have access to it. Use it silently for current events, live data
 let conversationHistory = [];
 let isProcessing = false;
 let queryCount = 0;
+let streamingId = 0;
+
+// ── Lock/unlock input ──
+function lockInput() {
+  isProcessing = true;
+  const input = document.getElementById('userInput');
+  const btn = document.getElementById('sendBtn');
+  input.disabled = true;
+  btn.disabled = true;
+}
+
+function unlockInput() {
+  isProcessing = false;
+  const input = document.getElementById('userInput');
+  const btn = document.getElementById('sendBtn');
+  input.disabled = false;
+  btn.disabled = false;
+  input.focus();
+}
 
 function setStatus(state) {
   const dot = document.getElementById('statusDot');
@@ -652,28 +671,33 @@ document.getElementById('webSearch').addEventListener('change', function() {
   document.getElementById('webToggle').classList.toggle('active', this.checked);
 });
 
-function addMessage(role, content, isStreaming = false) {
+// ── Enter key handler ──
+document.getElementById('userInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    if (!isProcessing) sendMessage();
+  }
+});
+
+// ── Send button handler ──
+document.getElementById('sendBtn').addEventListener('click', function() {
+  if (!isProcessing) sendMessage();
+});
+
+function addUserMessage(text) {
   hideWelcome();
   const chatArea = document.getElementById('chatArea');
   const msg = document.createElement('div');
-  msg.className = `message ${role}`;
-  const avatarText = role === 'jasper' ? 'JSP' : 'YOU';
-  const label = role === 'jasper' ? 'JASPER' : 'YOU';
+  msg.className = 'message user';
   msg.innerHTML = `
-    <div class="msg-avatar ${role}">${avatarText}</div>
+    <div class="msg-avatar user">YOU</div>
     <div class="msg-content">
-      <div class="msg-label">${label}</div>
-      <div class="msg-bubble">
-        ${isStreaming
-          ? `<div id="streaming-content" class="streaming"></div>`
-          : `<div>${marked.parse(content)}</div>`
-        }
-      </div>
+      <div class="msg-label">YOU</div>
+      <div class="msg-bubble"><p>${text.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p></div>
     </div>
   `;
   chatArea.appendChild(msg);
   scrollToBottom();
-  return msg;
 }
 
 function addThinking() {
@@ -703,24 +727,50 @@ function removeThinking() {
   if (el) el.remove();
 }
 
+function addJasperMessage(fullText, didSearch) {
+  const chatArea = document.getElementById('chatArea');
+  const currentId = ++streamingId;
+  const elId = `stream-${currentId}`;
+
+  const msg = document.createElement('div');
+  msg.className = 'message jasper';
+  msg.innerHTML = `
+    <div class="msg-avatar jasper">JSP</div>
+    <div class="msg-content">
+      <div class="msg-label">JASPER</div>
+      <div class="msg-bubble">
+        ${didSearch ? `<div class="search-notice"><div class="search-spinner"></div><span>LIVE WEB DATA INTEGRATED</span></div>` : ''}
+        <div id="${elId}" class="streaming"></div>
+      </div>
+    </div>
+  `;
+  chatArea.appendChild(msg);
+  scrollToBottom();
+  return elId;
+}
+
 async function sendMessage() {
-  if (isProcessing) return;
   const input = document.getElementById('userInput');
   const text = input.value.trim();
-  if (!text) return;
+  if (!text || isProcessing) return;
 
-  const useWebSearch = document.getElementById('webSearch').checked;
-  isProcessing = true;
-  input.value = '';
-  input.style.height = 'auto';
-  document.getElementById('sendBtn').disabled = true;
+  // Lock immediately
+  lockInput();
   setStatus('thinking');
 
-  addMessage('user', text);
+  // Clear input
+  input.value = '';
+  input.style.height = 'auto';
+
+  // Show user message
+  addUserMessage(text);
   conversationHistory.push({ role: 'user', content: text });
+
+  // Show thinking
   addThinking();
 
   try {
+    const useWebSearch = document.getElementById('webSearch').checked;
     const tools = useWebSearch
       ? [{ type: 'web_search_20250305', name: 'web_search' }]
       : undefined;
@@ -751,17 +801,12 @@ async function sendMessage() {
       .map(b => b.text)
       .join('\n\n');
 
+    // Remove thinking, add response box
     removeThinking();
-    addMessage('jasper', '', true);
-    const streamEl = document.getElementById('streaming-content');
+    const elId = addJasperMessage(fullText, didSearch);
+    const streamEl = document.getElementById(elId);
 
-    if (didSearch) {
-      const notice = document.createElement('div');
-      notice.className = 'search-notice';
-      notice.innerHTML = `<div class="search-spinner"></div><span>LIVE WEB DATA INTEGRATED</span>`;
-      streamEl.parentNode.insertBefore(notice, streamEl);
-    }
-
+    // Typewriter
     let i = 0;
     while (i < fullText.length) {
       streamEl.textContent += fullText.slice(i, i + 3);
@@ -770,8 +815,11 @@ async function sendMessage() {
       await new Promise(r => setTimeout(r, 10));
     }
 
+    // Render markdown
     streamEl.classList.remove('streaming');
     streamEl.innerHTML = marked.parse(fullText);
+    scrollToBottom();
+
     conversationHistory.push({ role: 'assistant', content: fullText });
     queryCount++;
     updateQueryCount();
@@ -793,14 +841,13 @@ async function sendMessage() {
     chatArea.appendChild(errMsg);
     console.error('[JASPER]', err);
   } finally {
-    isProcessing = false;
-    document.getElementById('sendBtn').disabled = false;
+    unlockInput();
     setStatus('idle');
-    scrollToBottom();
   }
 }
 
 function sendChip(el) {
+  if (isProcessing) return;
   document.getElementById('userInput').value = el.textContent;
   sendMessage();
 }
@@ -809,6 +856,7 @@ function clearChat() {
   if (isProcessing) return;
   conversationHistory = [];
   queryCount = 0;
+  streamingId = 0;
   updateQueryCount();
   setStatus('idle');
   document.getElementById('chatArea').innerHTML = `
